@@ -6,16 +6,22 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './show/mainpages/home';
 import About from './show/mainpages/about';
 import Default from './show/mainpages/default';
-import Nav from './show/nav/nav';
+import Layout from './show/mainpages/Layout';
+import Page from './show/mainpages/page';
+import TestComp from './components/testcompenents/testpost';
+import CreateNew from './show/mainpages/createNew';
 
 function App() {
   return (
   <BrowserRouter>
   <Routes>
-      <Route path="/" element={<Nav />}>
+      <Route path="/" element={<Layout />}>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/about" element={<About />} />
-        <Route path="*" element={<Default />} />
+        <Route exact path="/createNew" element={<CreateNew />} />
+        {/* <Route exact path="/about" element={<About />} />
+        <Route exact path="/page" element={<Page />} />
+        <Route exact path="/test" element={<TestComp />} /> */}
+        <Route path="*" element={<Page />} />
       </Route>
       </Routes>
   </BrowserRouter>
