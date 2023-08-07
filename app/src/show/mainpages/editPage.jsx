@@ -45,10 +45,16 @@ class EditPage extends Component {
         let res = await Axios.post('http://192.168.1.240:3003/updatePage', {layout: sendData, link: path});
         this.processContent(res.data);
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.currentLink !== prevProps.currentLink) {
+          this.getPage();
+        }
+    }
     async getPage() {
         try {
             const currentPath = window.location.pathname;
-            const path = currentPath.substring(1, currentPath.length);
+            const path = this.props.currentLink;
+            console.log(path)
             let res = await Axios.post('http://192.168.1.240:3003/getPage', {link: path});
             this.processContent(res.data);
         }

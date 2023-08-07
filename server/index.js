@@ -69,15 +69,43 @@ app.post("/updatePage", (req, res) => {
 });
 app.post("/create", (req, res) => {
     console.log(req.body);
-    connection.query("INSERT INTO mainpages (name, link, layout) VALUES (?, ?, ?);", [req.body.name, req.body.link, JSON.stringify([])], function(error, results, fields) {
+    connection.query("INSERT INTO mainpages (name, link, layout) VALUES (?, ?, ?);", [req.body.name, req.body.link, JSON.stringify({text: [{id: 0, content: 'add something'}], image: [], video: []})], function(error, results, fields) {
         if (error) {
             console.error(error);
+            res.json(false);
         } else {
-            if (results.length > 0) {
-                res.json('updated succeful');
-            } else {
-                res.json(null);
-                console.log('No rows found');
+            res.json(true);
+        }
+    });
+});
+app.post("/update", (req, res) => {
+    console.log(req.body);
+    connection.query("UPDATE mainpages SET name = ?, link = ? WHERE name = ?;", [req.body.newName, req.body.newLink, req.body.name], function(error, results, fields) {
+        if (error) {
+            console.error(error);
+            res.json(false);
+        } else {
+            if (results.changedRows > 0) {
+                res.json(true);
+            }
+            else {
+                res.json(false);
+            }
+        }
+    });
+});
+app.post("/delete", (req, res) => {
+    console.log(req.body);
+    connection.query("DELETE FROM mainpages WHERE name = ? AND link = ?;", [req.body.name, req.body.link], function(error, results, fields) {
+        if (error) {
+            console.error(error);
+            res.json(false);
+        } else {
+            if (results.affectedRows > 0) {
+                res.json(true);
+            }
+            else {
+                res.json(false);
             }
         }
     });

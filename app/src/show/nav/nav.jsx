@@ -16,7 +16,6 @@ class Nav extends Component {
         editMode: true,
     }
     async updateNavLinks() {
-        console.log("yo");
         try {
             let res = await Axios.post('http://192.168.1.240:3003/getAllPageNames', {text: "you bro"});
             console.log(res);
@@ -58,7 +57,7 @@ class Nav extends Component {
         }
     }
     renderLinks() {
-        const links = (this.state.links != null) ? this.state.links.map(link => <li key={link.name}><Link to={link.link} key={link.name}>{link.name}</Link></li>) : (<li>Loading</li>);
+        const links = (this.state.links != null) ? this.state.links.map(link => <li key={link.name} onClick={() => this.props.getCurrentLink(link.link)}><Link to={link.link} key={link.name}>{link.name}</Link></li>) : (<li>Loading</li>);
         return (
             <>
                 {/* <img src={mainImg}></img> */}

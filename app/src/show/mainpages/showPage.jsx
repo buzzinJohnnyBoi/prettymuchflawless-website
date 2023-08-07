@@ -9,10 +9,16 @@ class ShowPage extends Component {
     componentDidMount() {
         this.getPage();
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.currentLink !== prevProps.currentLink) {
+          this.getPage();
+        }
+    }
     async getPage() {
         try {
             const currentPath = window.location.pathname;
-            const path = currentPath.substring(1, currentPath.length);
+            const path = this.props.currentLink;
+            console.log(path)
             let res = await Axios.post('http://192.168.1.240:3003/getPage', {link: path});
             this.processContent(res.data);
         }
@@ -23,6 +29,7 @@ class ShowPage extends Component {
     processContent = (data) => {
         if(data != null) {
             const content = JSON.parse(data.layout);
+            console.log(content);
             const text = content.text;
             const image = content.image;
             const video = content.video;
@@ -50,6 +57,7 @@ class ShowPage extends Component {
                 }
                 index++;
             }
+            console.log(newContent);
             this.setState({
                 content: newContent,
             });
