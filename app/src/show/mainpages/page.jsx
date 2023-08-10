@@ -5,7 +5,7 @@ import './page.css';
 
 class Page extends Component {
     state = {
-        editMode: false,
+        editMode: true,
     }
     
     render() {

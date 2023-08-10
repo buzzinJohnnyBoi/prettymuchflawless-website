@@ -39,13 +39,13 @@ class ShowPage extends Component {
             while (index <= largestIndex) {
                 for (let i = 0; i < text.length; i++) {
                     if(text[i].id == index) {
-                        newContent.push({type: 'text', content: text[i].content});
+                        newContent.push({id: index, type: 'text', content: text[i].content});
                         break;
                     }
                 }
                 for (let i = 0; i < image.length; i++) {
                     if(image[i].id == index) {
-                        newContent.push({type: 'image', content: image[i].content});
+                        newContent.push({id: index, type: 'image', content: image[i].content});
                         break;
                     }
                 }

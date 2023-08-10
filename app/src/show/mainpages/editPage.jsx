@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Image from './imageUpload';
 import Axios from 'axios';
 import './page.css';
 class EditPage extends Component {
@@ -14,6 +15,7 @@ class EditPage extends Component {
 
         ],
         deleteMode: false
+
     } 
     componentDidMount() {
         this.getPage();
@@ -74,13 +76,13 @@ class EditPage extends Component {
             while (index <= largestIndex) {
                 for (let i = 0; i < text.length; i++) {
                     if(text[i].id == index) {
-                        newContent.push({type: 'text', content: text[i].content});
+                        newContent.push({id: index, type: 'text', content: text[i].content});
                         break;
                     }
                 }
                 for (let i = 0; i < image.length; i++) {
                     if(image[i].id == index) {
-                        newContent.push({type: 'image', content: image[i].content});
+                        newContent.push({id: index, type: 'image', content: image[i].content});
                         break;
                     }
                 }
@@ -119,7 +121,11 @@ class EditPage extends Component {
                 )
             }
             else if(data.type === 'image') {
-                return (<h1></h1>);
+                return (
+                    <div key={i} onClick={(!this.state.deleteMode) ? null : () => this.delete(i)}>
+                        <Image />
+                    </div>
+                );
             }
             else if(data.type === 'video') {
                 const embedUrl = `https://www.youtube.com/embed/${data.content}`;
@@ -141,6 +147,15 @@ class EditPage extends Component {
         const content = this.state.content;
         const updatedContent = [...content];
         updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'text', content: ''});
+        console.log(updatedContent)
+        this.setState({
+            content: updatedContent
+        });
+    }
+    createImage = () => {
+        const content = this.state.content;
+        const updatedContent = [...content];
+        updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'image', content: ''});
         console.log(updatedContent)
         this.setState({
             content: updatedContent
@@ -176,13 +191,13 @@ class EditPage extends Component {
         const input = (this.state.content != null) ? this.renderInputData() : 'loading';
         const deleteBtn = (!this.state.deleteMode) ? (<button onClick={this.deleteMode}>Delete Mode</button>) : (<button onClick={this.deleteMode}>Stop Delete</button>);
         return (
-            <div className='content'>
+            <div className='content'>  
                 <div className='edit'>
                     {input}
                 </div>
                 <div className='tools'>
                     <button onClick={this.createText}>Add Text box</button><br></br>
-                    <button>Add Image</button><br></br>
+                    <button onClick={this.createImage}>Add Image</button><br></br>
                     <button onClick={this.createYTvideo}>Add YouTube Video</button><br></br>
                     {deleteBtn}<br></br>
                     <button onClick={this.saveData}>Save</button><br></br>
@@ -190,6 +205,7 @@ class EditPage extends Component {
             </div>
         );
     }
+
 }
  
 export default EditPage;
