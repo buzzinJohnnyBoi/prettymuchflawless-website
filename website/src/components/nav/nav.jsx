@@ -13,15 +13,10 @@ class Nav extends Component {
         mobileMode: this.ismobile(),
         menuOpen: false,
         navMobileLeft: "-300px",
-        editMode: true,
     }
     async updateNavLinks() {
         try {
             let res = await Axios.post('http://192.168.1.240:3003/getAllPageNames', {text: "you bro"});
-            console.log(res);
-            if(this.state.editMode == true) {
-                res.data.push({name: 'Create New page', link: 'createNew'})
-            }
             this.setState({
                 links: res.data,
             })

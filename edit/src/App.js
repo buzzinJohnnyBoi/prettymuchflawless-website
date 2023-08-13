@@ -2,7 +2,7 @@ import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/mainpages/Layout';
-import Page from './components/mainpages/editPage';
+import Page from './components/mainpages/page';
 import CreateNew from './components/mainpages/createNew';
 
 

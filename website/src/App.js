@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/mainpages/Layout';
 import Page from './components/mainpages/page';
-import CreateNew from './components/mainpages/createNew';
 
 
 class App extends Component {
@@ -27,10 +26,6 @@ class App extends Component {
         <Routes>
           <Route path="/" element={<Layout getCurrentLink={this.getCurrentLink} />}>
             <Route exact path="/" element={<Page currentLink={this.state.currentLink}/>} />
-            <Route exact path="/createNew" element={<CreateNew />} />
-            {/* <Route exact path="/about" element={<About />} />
-            <Route exact path="/page" element={<Page />} />
-            <Route exact path="/test" element={<TestComp />} /> */}
             <Route path="*" element={<Page currentLink={this.state.currentLink} />} />
           </Route>
         </Routes>
