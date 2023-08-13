@@ -2,9 +2,21 @@ const express = require("express");
 const connection = require("./db.js");
 const app = express();
 const cors = require('cors');
+const multer = require('multer')
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+    cb(null, 'public')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' +file.originalname)
+  }
+})
+const uploadImage = multer({ storage: storage }).single('file')
 
 connection.query('SELECT * FROM mainpages', (err, results) => {
     if (err) throw err;
@@ -52,6 +64,18 @@ app.post("/getPage", (req, res) => {
         }
     });
 });
+
+app.post("/uploadImage", (req, res) => {
+    uploadImage(req, res, (err) => {
+        if (err) {
+          res.sendStatus(500);
+        }
+        else {
+            res.send(req.file);
+        }
+    });
+});
+
 app.post("/updatePage", (req, res) => {
     console.log(req.body);
     connection.query("UPDATE mainpages SET layout = ? WHERE link = ?;", [req.body.layout, req.body.link], function(error, results, fields) {

@@ -1,0 +1,144 @@
+header {
+    width: 100vw;
+    background-color: black;
+    font-size: 25px;
+    transition: all 0.5s ease-in-out;
+    position: fixed;
+    top: 0px;
+  }
+  
+  header ul {
+    /* padding: 10px; */
+    transition: 0.5s ease-in-out;
+    margin: 0;
+  }
+  
+  header ul li {
+    display: inline-block;
+    transition: 0.5s ease-in-out;
+    padding: 20px;
+  
+  }
+  header ul li a {
+    padding: 20px;
+    text-decoration: none;
+    background-color: #050505;
+    transition: 0.2s ease-in-out;
+    color: rgb(255, 0, 0);
+    font-size: inherit;
+    font-family: 'Britannic Bold';
+    src: url('./src/britanic-bold.ttf') format('truetype'); 
+  }
+  
+  header ul li a:hover {
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #0f0f13;
+    color: gold;
+    cursor: pointer;
+    /* font-size: 27px; */
+  }
+  
+  .menubtn {
+    display: inline-block;
+    cursor: pointer;
+    background-color: rgb(31, 29, 39);
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    transition: 0.2s ease-in-out;
+  }
+  .menubtn:hover {
+    background-color: rgb(57, 55, 66);
+  }
+  
+  .menubtn .line {
+    width: 50px;
+    height: 10px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 10px;
+  }
+  
+  .menubtn .lineOpen {
+    width: 50px;
+    height: 10px;
+    background-color: white;
+    border-radius: 10px;
+    /* position: relative; */
+  }
+  
+  .menubtn .lineClose {
+    width: 70px;
+    height: 10px;
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+    top: 30px;
+  }
+  
+  .menubtn #mbtnl1 {
+    transform: rotateZ(45deg);
+  }
+  
+  .menubtn #mbtnl2 {
+    transform: rotateZ(-45deg);
+    top: 20px;
+  }
+
+.navMobile {
+    position: fixed;
+    top: 0px;
+    background-color: black;
+    border-top: 140px solid black;
+    height: calc(100vh - 140px);
+    font-size: 25px;
+    overflow-x: hidden;
+    transition: 0.5s ease-in-out;
+}
+
+.navMobile ul {
+    margin: 0;
+    padding-left: 0px;
+    width: 300px;
+    list-style-type: none;
+    text-align: center;
+  }
+  
+  .navMobile ul li {
+    transition: 0.5s ease-in-out;
+    padding: 25px;
+
+    
+}
+
+.navMobile ul li a {
+    padding: 20px;
+    text-decoration: none;
+    background-color: #050505;
+    transition: 0.2s ease-in-out;
+    color: blue;
+    font-size: inherit;
+    width: 300px;
+    padding-left: 40px;
+    padding-right: 200px;
+    margin-left: -20px;
+    font-family: 'Britannic Bold';
+    src: url('./src/britanic-bold.ttf') format('truetype'); 
+  }
+  
+  .navMobile ul li a:hover {
+    background-color: #0f0f13;
+    color: gold;
+    cursor: pointer;
+    /* font-size: 27px; */
+  }
+
+  .cover {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+  }
