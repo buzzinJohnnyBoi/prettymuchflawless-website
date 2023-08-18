@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Image from './imageUpload';
+import Image from './pageComponents/imageUpload';
+import InsertMenu from './pageComponents/separator';
 import Axios from 'axios';
 import './page.css';
 class EditPage extends Component {
@@ -183,6 +184,7 @@ class EditPage extends Component {
                 return (
                     // onClick={(this.state.deleteMode) ? null : this.delete()}
                     <div key={i} onClick={(!this.state.deleteMode) ? null : () => this.delete(i)}>
+                        <InsertMenu id={i} createText={this.createText} createImage={this.createImage} createYTvideo={this.createYTvideo} />
                         <textarea value={data.content} onChange={(e) => this.update(e, i)}></textarea>
                     </div>
                 )
@@ -190,6 +192,7 @@ class EditPage extends Component {
             else if(data.type === 'image') {
                 return (
                     <div key={i} onClick={(!this.state.deleteMode) ? null : () => this.delete(i)}>
+                        <InsertMenu id={i} createText={this.createText} createImage={this.createImage} createYTvideo={this.createYTvideo} />
                         <Image id={i} updateImage={this.updateImage} image={data.content} new={data.new} />
                     </div>
                 );
@@ -197,6 +200,7 @@ class EditPage extends Component {
             else if(data.type === 'video') {
                 const embedUrl = `https://www.youtube.com/embed/${data.content}`;
                 return (<div key={i} onClick={(!this.state.deleteMode) ? null : () => this.delete(i)}>
+                    <InsertMenu id={i} createText={this.createText} createImage={this.createImage} createYTvideo={this.createYTvideo} />
                     <iframe
                       width={200}
                       height={200}
@@ -210,28 +214,52 @@ class EditPage extends Component {
         });
         return content;
     }
-    createText = () => {
+    insertElementRefactor(content) {
+        for (let i = 0; i < content.length; i++) {
+            content[i].id = i + 1;
+        }
+        return content;
+    }
+    createText = (id) => {
         const content = this.state.content;
         const updatedContent = [...content];
-        updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'text', content: ''});
+        if(id != null) {
+            updatedContent.splice(id, 0, {id: updatedContent[updatedContent.length - 1].id + 1, type: 'text', content: ''});
+            this.insertElementRefactor(updatedContent);
+        }
+        else {
+            updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'text', content: ''});
+        }
         console.log(updatedContent)
         this.setState({
             content: updatedContent
         });
     }
-    createImage = () => {
+    createImage = (id) => {
         const content = this.state.content;
         const updatedContent = [...content];
-        updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'image', content: '', new: true});
+        if(id != null) {
+            updatedContent.splice(id, 0, {id: updatedContent[updatedContent.length - 1].id + 1, type: 'image', content: '', new: true});
+            this.insertElementRefactor(updatedContent);
+        }
+        else {
+            updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'image', content: '', new: true});
+        }
         console.log(updatedContent)
         this.setState({
             content: updatedContent
         });
     }
-    createYTvideo = () => {
+    createYTvideo = (id) => {
         const content = this.state.content;
         const updatedContent = [...content];
-        updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'video', content: ''});
+        if(id != null) {
+            updatedContent.splice(id, 0, {id: updatedContent[updatedContent.length - 1].id + 1, type: 'video', content: ''});
+            this.insertElementRefactor(updatedContent);
+        }
+        else {
+            updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'video', content: ''});
+        }
         console.log(updatedContent)
         this.setState({
             content: updatedContent
@@ -264,9 +292,9 @@ class EditPage extends Component {
                         {input}
                     </div>
                     <div className='tools'>
-                        <button onClick={this.createText}>Add Text box</button><br></br>
-                        <button onClick={this.createImage}>Add Image</button><br></br>
-                        <button onClick={this.createYTvideo}>Add YouTube Video</button><br></br>
+                        <button onClick={() => this.createText(null)}>Add Text box</button><br></br>
+                        <button onClick={() => this.createImage(null)}>Add Image</button><br></br>
+                        <button onClick={() => this.createYTvideo(null)}>Add YouTube Video</button><br></br>
                         {deleteBtn}<br></br>
                         <button onClick={this.saveData}>Save</button><br></br>
                     </div>

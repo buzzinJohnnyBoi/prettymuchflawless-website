@@ -30,9 +30,6 @@ class Image extends Component {
         // });
     }
     render() {
-        console.log(this.state.imageURL);
-        console.log(this.props.image)
-        console.log(!this.props.new)
         const img = (this.props.image == '') ? <h1>No Image</h1> : ((this.props.new) ? <img src={this.state.imageURL}></img> : <img src={`http://192.168.1.240:3003/${this.props.image}`}></img>);
         return (
             <div>
