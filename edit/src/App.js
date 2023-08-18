@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/mainpages/Layout';
 import Page from './components/mainpages/page';
@@ -11,8 +11,15 @@ class App extends Component {
     currentLink: window.location.pathname.substring(1, window.location.pathname.length)
   }
   componentDidMount() {
-    
+    window.addEventListener("popstate", this.handlePopstate);
   }
+  componentWillUnmount() {
+    window.removeEventListener("popstate", this.handlePopstate);
+  }
+  handlePopstate = () => {
+    this.getCurrentLink(window.location.pathname.substring(1, window.location.pathname.length))
+    // Write your logic here to handle the back button click
+  };
   getCurrentLink = (link) => {
     this.setState({ currentLink: link }, () => {
       // This function will be executed after the state is updated and the component has re-rendered.
