@@ -1,0 +1,30 @@
+body {
+    background-color: rgb(27, 27, 27);
+}
+
+.page {
+    min-height: calc(100vh - 165px);
+    background-color: rgb(238, 224, 224);
+    width: 70vw;
+    padding: 2.5vw;
+    border-right: 2.5vw solid  rgb(228, 209, 209);
+    border-left: 2.5vw solid  rgb(228, 209, 209);
+    margin-left: 10vw;
+    margin-right: 10vw;
+    border-bottom: 50px solid  rgb(228, 209, 209)
+}
+.content {
+    padding-top: 150px;
+    color: black;
+}
+.hyperlink {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+@media screen and (max-width: 650px) {
+    .page {
+        width: 85vw;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

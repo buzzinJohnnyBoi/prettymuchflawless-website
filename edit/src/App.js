@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/mainpages/Layout';
 import Page from './components/mainpages/page';
 import CreateNew from './components/mainpages/createNew';
-
+import CreateNewArticle from'./components/mainpages/createNewArticle';
+import Article from './components/mainpages/article';
 
 class App extends Component {
   state = {
@@ -34,10 +35,10 @@ class App extends Component {
           <Route path="/" element={<Layout getCurrentLink={this.getCurrentLink} />}>
             <Route exact path="/" element={<Page currentLink={this.state.currentLink}/>} />
             <Route exact path="/createNew" element={<CreateNew />} />
-            {/* <Route exact path="/about" element={<About />} />
-            <Route exact path="/page" element={<Page />} />
-            <Route exact path="/test" element={<TestComp />} /> */}
+            <Route exact path="/createNewArticle" element={<CreateNewArticle />} />
             <Route path="*" element={<Page currentLink={this.state.currentLink} />} />
+            <Route path="article" element={<Article currentLink={this.state.currentLink} />} />
+            <Route path="article/:id" element={<Article currentLink={this.state.currentLink} />} />
           </Route>
         </Routes>
       </BrowserRouter>

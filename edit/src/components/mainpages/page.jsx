@@ -32,7 +32,8 @@ class EditPage extends Component {
         let video = [];
         for (let i = 0; i < content.length; i++) {
             if(content[i].type == 'text') {
-                text.push({id: i + 1, content: content[i].content});
+                const newText = (content[i].largeText != true) ? {id: i + 1, content: content[i].content} : {id: i + 1, content: content[i].content, largeText: true};
+                text.push(newText);
             }
             else if(content[i].type == 'image') {
                 if(content[i].new) {
@@ -41,7 +42,6 @@ class EditPage extends Component {
                     const imagePromise = fetch(imageUrl)
                     .then(response => response.blob())
                     imageFiles.push(imagePromise);
-                    console.log(imageFiles);
                     processNewImage = true;
                 }
                 else {
@@ -56,14 +56,11 @@ class EditPage extends Component {
             this.sendData(text, imageId, video);
         }
         else {
-            console.log(imageId);
             try {
                 Promise.all(imageFiles)
                 .then(images => {
-                    console.log(images);
                     for (let i = 0; i < imageId.length; i++) {
                         if(imageId[i].content == undefined) {
-                            console.log(images);
                             const formData = new FormData();
                             formData.append('file', images[0], 'image.jpg');
                             images.splice(0, 1);
@@ -73,14 +70,11 @@ class EditPage extends Component {
                     Promise.all(imageContent)
                     .then(imagesCon => {
                         for (let i = 0; i < imageId.length; i++) {
-                            console.log(imageId);
                             if(imageId[i].hasOwnProperty('content') != true) {
-                                console.log(imagesCon);
                                 image.push({id: imageId[i].id, content: imagesCon[0].data.filename});
                                 // imagesCon.splice(0, 1);
                             }
                             else {
-                                console.log('asdf');
                                 image.push(imageId[i]);
                             }
                         }
@@ -88,17 +82,14 @@ class EditPage extends Component {
                         this.sendData(text, image, video);
                     });
                 });
-                // console.log(image.length);
     
                
                 // Continue with other code here
             } catch (error) {
-                console.error('Error occurred during requests:', error);
             }
         }
     }
     sendData = async(text, image, video) => {
-        console.log(image);
         const sendData = JSON.stringify({
             text: text,
             image: image,
@@ -118,13 +109,26 @@ class EditPage extends Component {
         try {
             const currentPath = window.location.pathname;
             const path = this.props.currentLink;
-            console.log(path)
             let res = await Axios.post('http://192.168.1.240:3003/getPage', {link: path});
             this.processContent(res.data);
+            if(path == "Articles") {
+                const articles = await Axios.post('http://192.168.1.240:3003/getAllArticles', {});
+                this.addArticles(articles.data);
+            }
         }
         catch(error) {
-            console.log(error);
         }
+    }
+    addArticles = (data) => {
+        var newContent = [...this.state.content];
+        const len = newContent.length;
+        for (let i = 0; i < data.length; i++) {
+            const article = data[i];
+            newContent.push({id: len + i, type: 'article', name: article.name, link: 'article/' + article.link})
+        }
+        this.setState({
+            content: newContent,
+        });
     }
     processContent = (data) => {
         if(data != null) {
@@ -138,7 +142,7 @@ class EditPage extends Component {
             while (index <= largestIndex) {
                 for (let i = 0; i < text.length; i++) {
                     if(text[i].id == index) {
-                        newContent.push({id: index, type: 'text', content: text[i].content});
+                        newContent.push({id: index, type: 'text', content: text[i].content, largeText: text[i].largeText});
                         break;
                     }
                 }
@@ -168,7 +172,6 @@ class EditPage extends Component {
         const content = this.state.content;
         const updatedContent = [...content];
         updatedContent[i].content = e.target.value;
-        console.log(updatedContent)
 
         this.setState({ content: updatedContent });
     }
@@ -178,14 +181,29 @@ class EditPage extends Component {
         updatedContent[i].content = location;
         this.setState({ content: updatedContent });
     }
+    makeLargeText = (i) => {
+        const content = this.state.content;
+        const updatedContent = [...content];
+        updatedContent[i].largeText = true;
+        this.setState({ content: updatedContent });
+    }
+    makeSmallText = (i) => {
+        const content = this.state.content;
+        const updatedContent = [...content];
+        updatedContent[i].largeText = false;
+        this.setState({ content: updatedContent });
+    }
     renderInputData() {
         const content = this.state.content.map((data, i) => {     
             if(data.type === 'text') {
+                const btn = (data.largeText == true) ? <button onClick={() => this.makeSmallText(i)}>Make Small Font</button> : <button onClick={() => this.makeLargeText(i)}>Make Large Font</button>
+                const style = (data.largeText == true) ? {fontSize: "30px"} : {fontSize: "16px"};
                 return (
                     // onClick={(this.state.deleteMode) ? null : this.delete()}
                     <div key={i} onClick={(!this.state.deleteMode) ? null : () => this.delete(i)}>
                         <InsertMenu id={i} createText={this.createText} createImage={this.createImage} createYTvideo={this.createYTvideo} />
-                        <textarea value={data.content} onChange={(e) => this.update(e, i)}></textarea>
+                        <textarea style={style} value={data.content} onChange={(e) => this.update(e, i)}></textarea>
+                        {btn}
                     </div>
                 )
             }
@@ -196,6 +214,9 @@ class EditPage extends Component {
                         <Image id={i} updateImage={this.updateImage} image={data.content} new={data.new} />
                     </div>
                 );
+            }
+            else if(data.type === 'article') {
+                return (<div key={i}><a href={data.link}>{data.name}</a></div>);
             }
             else if(data.type === 'video') {
                 const embedUrl = `https://www.youtube.com/embed/${data.content}`;
@@ -230,7 +251,6 @@ class EditPage extends Component {
         else {
             updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'text', content: ''});
         }
-        console.log(updatedContent)
         this.setState({
             content: updatedContent
         });
@@ -245,7 +265,6 @@ class EditPage extends Component {
         else {
             updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'image', content: '', new: true});
         }
-        console.log(updatedContent)
         this.setState({
             content: updatedContent
         });
@@ -260,7 +279,6 @@ class EditPage extends Component {
         else {
             updatedContent.push({id: updatedContent[updatedContent.length - 1].id + 1, type: 'video', content: ''});
         }
-        console.log(updatedContent)
         this.setState({
             content: updatedContent
         });

@@ -11,6 +11,7 @@ header {
     /* padding: 10px; */
     transition: 0.5s ease-in-out;
     margin: 0;
+    height: 80px;
   }
   
   header ul li {
@@ -47,6 +48,8 @@ header {
     width: 70px;
     height: 70px;
     transition: 0.2s ease-in-out;
+    position: fixed;
+    overflow: hidden;
   }
   .menubtn:hover {
     background-color: rgb(57, 55, 66);
@@ -58,6 +61,15 @@ header {
     background-color: white;
     margin: 10px;
     border-radius: 10px;
+  }
+  .menubtn .line2 {
+    width: 50px;
+    height: 10px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 10px;
+    top: 20px;
+    position: absolute;
   }
   
   .menubtn .lineOpen {
@@ -79,12 +91,38 @@ header {
   
   .menubtn #mbtnl1 {
     transform: rotateZ(45deg);
+    transition: 0.5s ease-in-out;
   }
   
   .menubtn #mbtnl2 {
     transform: rotateZ(-45deg);
+    transition: 0.5s ease-in-out;
     top: 20px;
   }
+  .menubtn #mbtnl3 {
+    transform: rotateZ(0deg);
+    transition: 0.5s ease-in-out;
+    top: 40px;
+  }
+  .menubtn #mbtnl4 {
+    top: 0px;
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+    position: relative;
+
+  }
+  .menubtn #mbtnl5 {
+    top: 40px;
+    opacity: 1;
+    background-color: white;
+    transition: 0.5s ease-in-out;
+    position: relative;
+  }
+  /* .menubtn #mbtnl3 {
+    transform: rotateZ(-45deg);
+    transition: 0.5s ease-in-out;
+    top: 20px;
+  } */
 
 .navMobile {
     position: fixed;
@@ -108,8 +146,6 @@ header {
   .navMobile ul li {
     transition: 0.5s ease-in-out;
     padding: 25px;
-
-    
 }
 
 .navMobile ul li a {
@@ -117,7 +153,7 @@ header {
     text-decoration: none;
     background-color: #050505;
     transition: 0.2s ease-in-out;
-    color: blue;
+    color: red;
     font-size: inherit;
     width: 300px;
     padding-left: 40px;
@@ -141,4 +177,45 @@ header {
     width: 100vw;
     height: 100vh;
     top: 0px;
+  }
+
+  header ul .pmfTitle {
+    color: red;
+    font-family: 'Britannic Bold';
+    src: url('./src/britanic-bold.ttf') format('truetype'); 
+    font-size: 40px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    margin-top: 14px;
+    /* width: calc(100vw - 100px); */
+    text-align: center;
+  }
+
+  @media screen and (max-width: 690px) {
+    header ul .pmfTitle {
+      margin-top: 18px;
+      font-size: 30px;
+    }
+  }
+
+  @media screen and (max-width: 530px) {
+    header ul .pmfTitle {
+      width: 50vw;
+      left: 25vw;
+      margin-top: 8px;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    header ul .pmfTitle {
+      left: 120px;
+      width: 170px;
+      text-align: right;
+    }
+  }
+  @media screen and (max-width: 330px) {
+    header ul .pmfTitle {
+      left: 108px;
+    }
   }

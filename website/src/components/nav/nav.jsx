@@ -10,9 +10,10 @@ class Nav extends Component {
         links: null,
         top: true,
         paddTop: "30px",
-        mobileMode: this.ismobile(),
+        mobileMode: this.ismobile,
         menuOpen: false,
         navMobileLeft: "-300px",
+        maxWidthMobile: 850
     }
     async updateNavLinks() {
         try {
@@ -25,11 +26,11 @@ class Nav extends Component {
             console.log(error);
         }
     }
-    ismobile() {
-        if(window.innerWidth < 700) {
+    ismobile = () => {
+        if(window.innerWidth < this.state.maxWidthMobile) {
             return true;
         }
-        else if(window.innerWidth > 700) {
+        else if(window.innerWidth > this.state.maxWidthMobile) {
             return false;
         }
     }
@@ -39,7 +40,7 @@ class Nav extends Component {
                 <React.Fragment>
                     <div className='cover' onClick={this.changeMenu}></div>
                     <div className='navMobile' style={{left: this.state.navMobileLeft}}>{this.renderLinks()}</div>
-                    <header style={{paddingTop: this.state.paddTop, paddingBottom: this.state.paddTop,}}><ul>{this.renderMenubtn()}</ul></header>
+                    <header style={{paddingTop: this.state.paddTop, paddingBottom: this.state.paddTop,}}><ul> <div className='pmfTitle'>Pretty Much Flawless</div>{this.renderMenubtn()}</ul></header>
                 </React.Fragment>
             );
         }
@@ -67,16 +68,17 @@ class Nav extends Component {
             return (
 	            <div className='menubtn' onClick={this.changeMenu}>
 	                <div className='lineClose' id='mbtnl1'></div>
-	                <div className='lineClose' id='mbtnl2'></div>
+	                <div className='lineClose' id='mbtnl2' style={{top: '20px'}}></div>
+	                <div className='line2' id='mbtnl3' style={{top: '-10px', opacity: 0}}></div>
 	            </div>
 	        );
         }
         else {
 	        return (
 	            <div className='menubtn' onClick={this.changeMenu}>
-	                <div className='line'></div>
-	                <div className='line'></div>
-	                <div className='line'></div>
+	                <div className='line' id='mbtnl5'></div>
+	                <div className='line' id='mbtnl4' style={{opacity: 1}}></div>
+	                <div className='line2' id='mbtnl3' style={{top: '0px', opacity: 1}}></div>
 	            </div>
 	        );
         }
@@ -104,6 +106,8 @@ class Nav extends Component {
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('resize', this.handleResize);
         this.updateNavLinks();
+        const mode = this.ismobile();
+        this.setState({mobileMode: mode});
     }
     componentWillUnmount = () => {
         window.removeEventListener('scroll', this.handleScroll);
@@ -121,10 +125,10 @@ class Nav extends Component {
         }
     }
     handleResize = (event) => {
-        if(window.innerWidth < 700 && !this.state.mobileMode) {
+        if(window.innerWidth < this.state.maxWidthMobile && !this.state.mobileMode) {
             this.setState({mobileMode: true});
         }
-        else if(window.innerWidth > 700 && this.state.mobileMode) {
+        else if(window.innerWidth > this.state.maxWidthMobile && this.state.mobileMode) {
             this.setState({mobileMode: false});
         }
     }

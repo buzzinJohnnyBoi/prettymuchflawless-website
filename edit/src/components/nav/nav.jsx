@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from "react-router-dom";
-import {Outlet} from "react-router-dom";
-import mainImg from './src/mainimg.jpg';
+import { Link } from "react-router-dom";
 import './nav.css';
 import Axios from 'axios';
 
@@ -20,7 +18,10 @@ class Nav extends Component {
             let res = await Axios.post('http://192.168.1.240:3003/getAllPageNames', {text: "you bro"});
             console.log(res);
             if(this.state.editMode == true) {
-                res.data.push({name: 'Create New page', link: 'createNew'})
+                res.data.push({name: 'New page', link: 'createNew'})
+            }
+            if(this.state.editMode == true) {
+                res.data.push({name: 'New Article', link: 'createNewArticle'})
             }
             this.setState({
                 links: res.data,

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/mainpages/Layout';
 import Page from './components/mainpages/page';
+import Article from './components/mainpages/article';
 
 
 class App extends Component {
@@ -21,11 +22,7 @@ class App extends Component {
     // Write your logic here to handle the back button click
   };
   getCurrentLink = (link) => {
-    this.setState({ currentLink: link }, () => {
-      // This function will be executed after the state is updated and the component has re-rendered.
-      console.log(link); // This will be the correct link value
-      console.log(this.state.currentLink); // This will also be the correct link value
-    });
+    this.setState({ currentLink: link });
   }
   render() {
     return (
@@ -34,6 +31,8 @@ class App extends Component {
           <Route path="/" element={<Layout getCurrentLink={this.getCurrentLink} />}>
             <Route exact path="/" element={<Page currentLink={this.state.currentLink}/>} />
             <Route path="*" element={<Page currentLink={this.state.currentLink} />} />
+            <Route path="article" element={<Article currentLink={this.state.currentLink} />} />
+            <Route path="article/:id" element={<Article currentLink={this.state.currentLink} />} />
           </Route>
         </Routes>
       </BrowserRouter>
